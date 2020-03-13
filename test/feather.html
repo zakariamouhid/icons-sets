@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icons Sets</title>
+    <style>
+        #app {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #app > div {
+            width: 40px;
+            padding: 10px;
+        }
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="helpers.js"></script>
+
+    <script>console.time("featherIcons script");</script>
+    <script src="../dist/feather-icons.js"></script>
+    <script>console.timeEnd("featherIcons script");</script>
+
+    <script>console.time("featherIcons tree script");</script>
+    <script src="../dist/feather-icons-tree.js"></script>
+    <script>console.timeEnd("featherIcons tree script");</script>
+
+    <script>
+        ((async () => {
+            console.time("featherIcons json");
+            let { icons } = await fetch("../dist/feather-icons.json").then(res => res.json());
+            console.timeEnd("featherIcons json");
+
+            // sort solid icons
+            icons = sortSolidIcons(icons, a => a.endsWith("-filled") || a.endsWith("-filled-alt"));
+
+            // append icons
+            showIcons(icons, app);
+
+            // test add class
+            iconsAddClass(featherIcons.icons, "feather-icon");
+
+            // tree to string
+            treeIconsToStr(featherIconsTree, featherIcons);
+
+            console.time("featherIcons tree json");
+            let iconsTreeJson = await fetch("../dist/feather-icons-tree.json").then(res => res.json());
+            console.timeEnd("featherIcons tree json");
+
+            console.log(
+                `JSON.stringify(iconsTreeJson) === JSON.stringify(featherIconsTree)`,
+                JSON.stringify(iconsTreeJson) === JSON.stringify(featherIconsTree)
+            );
+        })());
+    </script>
+</body>
+</html>

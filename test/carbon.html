@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icons Sets</title>
+    <style>
+        #app {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #app > div {
+            width: 40px;
+            padding: 10px;
+        }
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="helpers.js"></script>
+
+    <script>console.time("carbonIcons script");</script>
+    <script src="../dist/carbon-icons.js"></script>
+    <script>console.timeEnd("carbonIcons script");</script>
+
+    <script>console.time("carbonIcons tree script");</script>
+    <script src="../dist/carbon-icons-tree.js"></script>
+    <script>console.timeEnd("carbonIcons tree script");</script>
+
+    <script>
+        ((async () => {
+            console.time("carbonIcons json");
+            let { icons } = await fetch("../dist/carbon-icons.json").then(res => res.json());
+            console.timeEnd("carbonIcons json");
+
+            // sort solid icons
+            icons = sortSolidIcons(icons, a => a.endsWith("-filled") || a.endsWith("-filled-alt"));
+
+            // append icons
+            showIcons(icons, app);
+
+            // test add class
+            iconsAddClass(carbonIcons.icons, "carbon-icon");
+
+            // tree to string
+            treeIconsToStr(carbonIconsTree, carbonIcons);
+
+            console.time("carbonIcons tree json");
+            let iconsTreeJson = await fetch("../dist/carbon-icons-tree.json").then(res => res.json());
+            console.timeEnd("carbonIcons tree json");
+
+            console.log(
+                `JSON.stringify(iconsTreeJson) === JSON.stringify(carbonIconsTree)`,
+                JSON.stringify(iconsTreeJson) === JSON.stringify(carbonIconsTree)
+            );
+        })());
+    </script>
+</body>
+</html>

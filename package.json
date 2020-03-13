@@ -1,0 +1,32 @@
+{
+  "name": "icons-sets",
+  "version": "0.1.0",
+  "description": "sets of free icons (feather, carbon, clarity, fontawsome) to use via cdn",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo Open ./test/carbon.html in your browser!",
+    "build": "node index.js",
+    "dev": "nodemon index.js --ignore dist/",
+    "devInspect": "nodemon --inspect index.js --ignore dist/"
+  },
+  "keywords": [
+    "icons",
+    "sets",
+    "feather",
+    "carbon",
+    "clarity",
+    "fontawsome",
+    "cdn"
+  ],
+  "author": "zakariamouhid",
+  "license": "MIT",
+  "devDependencies": {
+    "@carbon/icons": "^10.9.1",
+    "@clr/icons": "^3.0.0",
+    "feather-icons": "^4.26.0",
+    "jsdom": "^16.2.0",
+    "nodemon": "^2.0.2",
+    "svgo": "^1.3.2",
+    "terser": "^4.6.6"
+  }
+}

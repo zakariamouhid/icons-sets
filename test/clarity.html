@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icons Sets</title>
+    <style>
+        #app {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #app > div {
+            width: 40px;
+            padding: 10px;
+        }
+        svg {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script src="helpers.js"></script>
+
+    <script>console.time("clarityIcons script");</script>
+    <script src="../dist/clarity-icons.js"></script>
+    <script>console.timeEnd("clarityIcons script");</script>
+
+    <script>console.time("clarityIcons tree script");</script>
+    <script src="../dist/clarity-icons-tree.js"></script>
+    <script>console.timeEnd("clarityIcons tree script");</script>
+
+    <script>
+        ((async () => {
+            console.time("clarityIcons json");
+            let { icons } = await fetch("../dist/clarity-icons.json").then(res => res.json());
+            console.timeEnd("clarityIcons json");
+
+            // sort solid icons
+            icons = sortSolidIcons(icons, a => a.endsWith("-solid"));
+
+            // append icons
+            showIcons(icons, app);
+
+            // test add class
+            iconsAddClass(clarityIcons.icons, "clarity-icon");
+
+            // tree to string
+            treeIconsToStr(clarityIconsTree, clarityIcons);
+
+            console.time("clarityIcons tree json");
+            let iconsTreeJson = await fetch("../dist/clarity-icons-tree.json").then(res => res.json());
+            console.timeEnd("clarityIcons tree json");
+
+            console.log(
+                `JSON.stringify(iconsTreeJson) === JSON.stringify(clarityIconsTree)`,
+                JSON.stringify(iconsTreeJson) === JSON.stringify(clarityIconsTree)
+            );
+        })());
+    </script>
+</body>
+</html>
